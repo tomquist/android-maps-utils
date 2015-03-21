@@ -26,12 +26,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.TileOverlay;
-import com.google.android.gms.maps.model.TileOverlayOptions;
-import com.google.maps.android.heatmaps.Gradient;
-import com.google.maps.android.heatmaps.HeatmapTileProvider;
+import de.quist.app.maps.utils.heatmaps.Gradient;
+import de.quist.app.maps.utils.heatmaps.HeatmapTileProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +37,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import de.quist.app.maps.model.LatLng;
+import de.quist.app.maps.model.TileOverlay;
 
 /**
  * A demo of the Heatmaps library. Demonstrates how the HeatmapTileProvider can be used to create
@@ -98,7 +97,7 @@ public class HeatmapsDemoActivity extends BaseDemoActivity {
 
     @Override
     protected void startDemo() {
-        getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-25, 143), 4));
+        getMap().moveCamera(BuildConfig.MAP_BINDING.cameraUpdateFactory().newLatLngZoom(BuildConfig.MAP_BINDING.newLatLng(-25, 143), 4));
 
         // Set up the spinner/dropdown list
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -163,9 +162,9 @@ public class HeatmapsDemoActivity extends BaseDemoActivity {
 
             // Check if need to instantiate (avoid setData etc twice)
             if (mProvider == null) {
-                mProvider = new HeatmapTileProvider.Builder().data(
+                mProvider = new HeatmapTileProvider.Builder(BuildConfig.MAP_BINDING).data(
                         mLists.get(getString(R.string.police_stations)).getData()).build();
-                mOverlay = getMap().addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
+                mOverlay = getMap().addTileOverlay(BuildConfig.MAP_BINDING.newTileOverlayOptions().tileProvider(mProvider));
                 // Render links
                 attribution.setMovementMethod(LinkMovementMethod.getInstance());
             } else {
@@ -193,7 +192,7 @@ public class HeatmapsDemoActivity extends BaseDemoActivity {
             JSONObject object = array.getJSONObject(i);
             double lat = object.getDouble("lat");
             double lng = object.getDouble("lng");
-            list.add(new LatLng(lat, lng));
+            list.add(BuildConfig.MAP_BINDING.newLatLng(lat, lng));
         }
         return list;
     }

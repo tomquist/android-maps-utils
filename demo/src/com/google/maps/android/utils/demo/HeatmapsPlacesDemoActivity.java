@@ -30,15 +30,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.TileOverlay;
-import com.google.android.gms.maps.model.TileOverlayOptions;
-import com.google.maps.android.SphericalUtil;
-import com.google.maps.android.heatmaps.Gradient;
-import com.google.maps.android.heatmaps.HeatmapTileProvider;
+import de.quist.app.maps.utils.SphericalUtil;
+import de.quist.app.maps.utils.heatmaps.Gradient;
+import de.quist.app.maps.utils.heatmaps.HeatmapTileProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +48,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Hashtable;
 
+import de.quist.app.maps.Map;
+import de.quist.app.maps.model.LatLng;
+import de.quist.app.maps.model.TileOverlay;
+
 /**
  * A demo of the heatmaps library incorporating radar search from the Google Places API.
  * This demonstrates the usefulness of heatmaps for displaying the distribution of points,
@@ -61,9 +59,9 @@ import java.util.Hashtable;
  */
 public class HeatmapsPlacesDemoActivity extends BaseDemoActivity {
 
-    private GoogleMap mMap = null;
+    private Map mMap = null;
 
-    private final LatLng SYDNEY = new LatLng(-33.873651, 151.2058896);
+    private final LatLng SYDNEY = BuildConfig.MAP_BINDING.newLatLng(-33.873651, 151.2058896);
 
     /**
      * The base URL for the radar search request.
@@ -161,9 +159,9 @@ public class HeatmapsPlacesDemoActivity extends BaseDemoActivity {
         if (mMap == null) {
             mMap = getMap();
             if (mMap != null) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SYDNEY, 11));
+                mMap.moveCamera(BuildConfig.MAP_BINDING.cameraUpdateFactory().newLatLngZoom(SYDNEY, 11));
                 // Add a circle around Sydney to roughly encompass the results
-                mMap.addCircle(new CircleOptions()
+                mMap.addCircle(BuildConfig.MAP_BINDING.newCircleOptions()
                     .center(SYDNEY)
                     .radius(SEARCH_RADIUS * 1.2)
                     .strokeColor(Color.RED)
@@ -216,7 +214,7 @@ public class HeatmapsPlacesDemoActivity extends BaseDemoActivity {
         //   so that four searches can be done.
         ArrayList<LatLng> searchCenters = new ArrayList<LatLng>(4);
         for (int heading = 45; heading < 360; heading += 90) {
-            searchCenters.add(SphericalUtil.computeOffset(SYDNEY, SEARCH_RADIUS / 2, heading));
+            searchCenters.add(SphericalUtil.computeOffset(BuildConfig.MAP_BINDING, SYDNEY, SEARCH_RADIUS / 2, heading));
         }
 
         for (int j = 0; j < 4; j++) {
@@ -232,7 +230,7 @@ public class HeatmapsPlacesDemoActivity extends BaseDemoActivity {
                         JSONObject location = pointsJsonArray.getJSONObject(i)
                                 .getJSONObject("geometry").getJSONObject("location");
                         results.put(pointsJsonArray.getJSONObject(i).getString("id"),
-                                new LatLng(location.getDouble("lat"),
+                                BuildConfig.MAP_BINDING.newLatLng(location.getDouble("lat"),
                                         location.getDouble("lng")));
                     }
                 }
@@ -256,7 +254,7 @@ public class HeatmapsPlacesDemoActivity extends BaseDemoActivity {
         try {
             URL url = new URL(
                     PLACES_API_BASE + TYPE_RADAR_SEARCH + OUT_JSON
-                    + "?location=" + location.latitude + "," + location.longitude
+                    + "?location=" + location.latitude() + "," + location.longitude()
                     + "&radius=" + (SEARCH_RADIUS / 2)
                     + "&sensor=false"
                     + "&key=" + API_KEY
@@ -329,11 +327,11 @@ public class HeatmapsPlacesDemoActivity extends BaseDemoActivity {
             if (!points.isEmpty()) {
                 if (mOverlays.size() < MAX_CHECKBOXES) {
                     makeCheckBox(keyword);
-                    HeatmapTileProvider provider = new HeatmapTileProvider.Builder()
+                    HeatmapTileProvider provider = new HeatmapTileProvider.Builder(BuildConfig.MAP_BINDING)
                             .data(new ArrayList<LatLng>(points))
                             .gradient(makeGradient(HEATMAP_COLORS[mOverlaysRendered]))
                             .build();
-                    TileOverlay overlay = getMap().addTileOverlay(new TileOverlayOptions().tileProvider(provider));
+                    TileOverlay overlay = getMap().addTileOverlay(BuildConfig.MAP_BINDING.newTileOverlayOptions().tileProvider(provider));
                     mOverlays.put(keyword, overlay);
                 }
                 mOverlaysRendered++;

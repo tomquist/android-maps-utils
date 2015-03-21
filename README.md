@@ -1,22 +1,17 @@
-# Google Maps Android API utility library
+# Maps API utility library for maps-abstraction-library
 
 ## Introduction
 
-This open-source library contains classes that are useful for a wide
-range of applications using the [Google Maps Android
-API](http://developer.android.com/google/play-services/maps.html).
-
-The library is under heavy development, but ready for use. Check the
-[issue tracker][issues] to see what's happening.
+This is a fork of the popular open-source library [Google Maps Android API utility
+library](https://github.com/googlemaps/android-maps-utils) compatible with my
+[maps-abstraction](https://github.com/tomquist/android-maps-abstraction) library. It contains
+classes that are useful for a wide range of applications using the [Google Maps Android
+API](http://developer.android.com/google/play-services/maps.html) or [Amazon Maps
+API v2](https://developer.amazon.com/public/apis/experience/maps).
 
 ## Read more and get started
 
-Read more on the [website][website].
+Read more on the [official website][official website].
 
-[issues]: https://github.com/googlemaps/android-maps-utils/issues
-[website]: http://googlemaps.github.io/android-maps-utils/
-
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/googlemaps/android-maps-utils/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[official website]: http://googlemaps.github.io/android-maps-utils/
 

@@ -5,7 +5,7 @@
     android:background="@drawable/bubble_white"
     android:orientation="vertical">
 
-    <com.google.maps.android.ui.RotationLayout
+    <de.quist.app.maps.utils.ui.RotationLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -21,6 +21,6 @@
             android:paddingTop="5dp"
             android:textAppearance="@style/Bubble.TextAppearance.Dark" />
 
-    </com.google.maps.android.ui.RotationLayout>
+    </de.quist.app.maps.utils.ui.RotationLayout>
 
 </LinearLayout>

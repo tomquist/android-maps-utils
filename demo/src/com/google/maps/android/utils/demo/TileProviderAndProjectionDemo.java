@@ -6,24 +6,23 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Tile;
-import com.google.android.gms.maps.model.TileOverlayOptions;
-import com.google.android.gms.maps.model.TileProvider;
-import com.google.maps.android.geometry.Point;
-import com.google.maps.android.projection.SphericalMercatorProjection;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.quist.app.maps.model.LatLng;
+import de.quist.app.maps.model.Tile;
+import de.quist.app.maps.model.TileProvider;
+import de.quist.app.maps.utils.geometry.Point;
+import de.quist.app.maps.utils.projection.SphericalMercatorProjection;
 
 public class TileProviderAndProjectionDemo extends BaseDemoActivity {
     @Override
     protected void startDemo() {
         PointTileOverlay pto = new PointTileOverlay();
-        pto.addPoint(new LatLng(0, 0));
-        pto.addPoint(new LatLng(21, -10));
-        getMap().addTileOverlay(new TileOverlayOptions().tileProvider(pto));
+        pto.addPoint(BuildConfig.MAP_BINDING.newLatLng(0, 0));
+        pto.addPoint(BuildConfig.MAP_BINDING.newLatLng(21, -10));
+        getMap().addTileOverlay(BuildConfig.MAP_BINDING.newTileOverlayOptions().tileProvider(pto));
     }
 
     private class PointTileOverlay implements TileProvider {
@@ -50,7 +49,7 @@ public class TileProviderAndProjectionDemo extends BaseDemoActivity {
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            return new Tile(mDimension, mDimension, baos.toByteArray());
+            return BuildConfig.MAP_BINDING.newTile(mDimension, mDimension, baos.toByteArray());
         }
 
         public void addPoint(LatLng latLng) {

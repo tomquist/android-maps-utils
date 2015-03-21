@@ -4,28 +4,27 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
+        classpath 'com.android.tools.build:gradle:1.1.0'
     }
 }
 
-apply plugin: 'android'
-
-dependencies {
-    compile project(':library')
-    // Or, fetch from Maven:
-    // compile 'com.google.maps.android:android-maps-utils:0.3+'
-    compile 'com.google.android.gms:play-services:4.+'
-}
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
 
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
             res.srcDirs = ['res']
+        }
+        play {
+            res.srcDirs = ['playRes']
+        }
+        amazon {
+            res.srcDirs = ['amazonRes']
         }
     }
 
@@ -34,6 +33,29 @@ android {
             storeFile file('debug.keystore')
         }
     }
+
+    productFlavors {
+        play {
+            applicationId "com.google.maps.android.utils.demo.play"
+            buildConfigField "de.quist.app.maps.MapsBinding", "MAP_BINDING", "de.quist.app.maps.google.GoogleMapsBinding.INSTANCE"
+        }
+        amazon {
+            applicationId "com.google.maps.android.utils.demo.amazon"
+            minSdkVersion 15
+            buildConfigField "de.quist.app.maps.MapsBinding", "MAP_BINDING", "de.quist.app.maps.amazon.AmazonMapsBinding.INSTANCE"
+        }
+    }
+}
+
+dependencies {
+    compile project(':library')
+    // Or, fetch from Maven:
+    // compile 'com.google.maps.android:android-maps-utils:0.3+'
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    playCompile 'de.quist.apps.maps:google-maps-binding:1.0.0'
+    playCompile 'com.google.android.gms:play-services:6.5.87'
+    amazonCompile 'de.quist.apps.maps:amazon-maps-binding:1.0.0'
+    amazonCompile 'com.amazon.android:amazon-maps-api:2.0'
 }
 
 task startDemo(type: Exec) {

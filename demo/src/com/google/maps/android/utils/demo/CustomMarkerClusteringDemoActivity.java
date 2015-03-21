@@ -7,19 +7,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.maps.android.clustering.Cluster;
-import com.google.maps.android.clustering.ClusterManager;
-import com.google.maps.android.clustering.view.DefaultClusterRenderer;
-import com.google.maps.android.ui.IconGenerator;
+import de.quist.app.maps.utils.clustering.Cluster;
+import de.quist.app.maps.utils.clustering.ClusterManager;
+import de.quist.app.maps.utils.clustering.view.DefaultClusterRenderer;
+import de.quist.app.maps.utils.ui.IconGenerator;
 import com.google.maps.android.utils.demo.model.Person;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import de.quist.app.maps.model.LatLng;
+import de.quist.app.maps.model.MarkerOptions;
 
 /**
  * Demonstrates heavy customisation of the look of rendered clusters.
@@ -40,7 +39,7 @@ public class CustomMarkerClusteringDemoActivity extends BaseDemoActivity impleme
         private final int mDimension;
 
         public PersonRenderer() {
-            super(getApplicationContext(), getMap(), mClusterManager);
+            super(getApplicationContext(), BuildConfig.MAP_BINDING, getMap(), mClusterManager);
 
             View multiProfile = getLayoutInflater().inflate(R.layout.multi_profile, null);
             mClusterIconGenerator.setContentView(multiProfile);
@@ -60,7 +59,7 @@ public class CustomMarkerClusteringDemoActivity extends BaseDemoActivity impleme
             // Set the info window to show their name.
             mImageView.setImageResource(person.profilePhoto);
             Bitmap icon = mIconGenerator.makeIcon();
-            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(person.name);
+            markerOptions.icon(BuildConfig.MAP_BINDING.bitmapDescriptorFactory().fromBitmap(icon)).title(person.name);
         }
 
         @Override
@@ -83,7 +82,7 @@ public class CustomMarkerClusteringDemoActivity extends BaseDemoActivity impleme
 
             mClusterImageView.setImageDrawable(multiDrawable);
             Bitmap icon = mClusterIconGenerator.makeIcon(String.valueOf(cluster.getSize()));
-            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon));
+            markerOptions.icon(BuildConfig.MAP_BINDING.bitmapDescriptorFactory().fromBitmap(icon));
         }
 
         @Override
@@ -119,9 +118,9 @@ public class CustomMarkerClusteringDemoActivity extends BaseDemoActivity impleme
 
     @Override
     protected void startDemo() {
-        getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(51.503186, -0.126446), 9.5f));
+        getMap().moveCamera(BuildConfig.MAP_BINDING.cameraUpdateFactory().newLatLngZoom(BuildConfig.MAP_BINDING.newLatLng(51.503186, -0.126446), 9.5f));
 
-        mClusterManager = new ClusterManager<Person>(this, getMap());
+        mClusterManager = new ClusterManager<Person>(this, BuildConfig.MAP_BINDING, getMap());
         mClusterManager.setRenderer(new PersonRenderer());
         getMap().setOnCameraChangeListener(mClusterManager);
         getMap().setOnMarkerClickListener(mClusterManager);
@@ -165,7 +164,7 @@ public class CustomMarkerClusteringDemoActivity extends BaseDemoActivity impleme
     }
 
     private LatLng position() {
-        return new LatLng(random(51.6723432, 51.38494009999999), random(0.148271, -0.3514683));
+        return BuildConfig.MAP_BINDING.newLatLng(random(51.6723432, 51.38494009999999), random(0.148271, -0.3514683));
     }
 
     private double random(double min, double max) {

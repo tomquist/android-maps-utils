@@ -4,25 +4,28 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
+        classpath 'com.android.tools.build:gradle:1.1.0'
     }
 }
 
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
 archivesBaseName = 'android-maps-utils'
-group = 'com.google.maps.android'
+group = 'de.quist.app.maps'
 
 dependencies {
-    compile 'com.google.android.gms:play-services:4.3+'
+    compile 'com.android.support:support-v4:21.+'
+    compile 'de.quist.apps.maps:android-maps-abstraction:1.0.0'
+    androidTestCompile 'de.quist.apps.maps:google-maps-binding:1.0.0'
+    androidTestCompile 'com.google.android.gms:play-services:6.5.87'
 }
 
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
 
     sourceSets {
         main {
@@ -98,14 +101,14 @@ uploadArchives {
 
 def modifyPom(pom) {
     pom.project {
-        name 'Google Maps Android API utility library'
-        description 'Handy extensions to the Google Maps Android API.'
-        url 'https://github.com/googlemaps/android-maps-utils'
+        name 'Android Maps API utility library for maps-abstraction-library'
+        description 'Handy extensions to the android-maps-abstraction library.'
+        url 'https://github.com/tomquist/android-maps-utils'
 
         scm {
-            url 'scm:git@github.com:googlemaps/android-maps-utils.git'
-            connection 'scm:git@github.com:googlemaps/android-maps-utils.git'
-            developerConnection 'scm:git@github.com:googlemaps/android-maps-utils.git'
+            url 'scm:git@github.com:tomquist/android-maps-utils.git'
+            connection 'scm:git@github.com:tomquist/android-maps-utils.git'
+            developerConnection 'scm:git@github.com:tomquist/android-maps-utils.git'
         }
 
         licenses {
@@ -116,16 +119,15 @@ def modifyPom(pom) {
             }
         }
 
-        organization {
-            name 'Google Inc'
-            url 'http://developers.google.com/maps'
-        }
-
         developers {
             developer {
                 id 'broady'
                 name 'Chris Broadfoot'
                 url 'http://google.com/+ChristopherBroadfoot'
+            }
+            developer {
+                id 'tomquist'
+                name 'Tom Quist'
             }
         }
     }

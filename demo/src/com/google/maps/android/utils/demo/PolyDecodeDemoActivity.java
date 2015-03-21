@@ -1,11 +1,10 @@
 package com.google.maps.android.utils.demo;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.maps.android.PolyUtil;
+import de.quist.app.maps.utils.PolyUtil;
 
 import java.util.List;
+
+import de.quist.app.maps.model.LatLng;
 
 public class PolyDecodeDemoActivity extends BaseDemoActivity {
 
@@ -13,10 +12,10 @@ public class PolyDecodeDemoActivity extends BaseDemoActivity {
 
     @Override
     protected void startDemo() {
-        List<LatLng> decodedPath = PolyUtil.decode(LINE);
+        List<LatLng> decodedPath = PolyUtil.decode(BuildConfig.MAP_BINDING, LINE);
 
-        getMap().addPolyline(new PolylineOptions().addAll(decodedPath));
+        getMap().addPolyline(BuildConfig.MAP_BINDING.newPolylineOptions().addAll(decodedPath));
 
-        getMap().moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-33.8256, 151.2395), 12));
+        getMap().moveCamera(BuildConfig.MAP_BINDING.cameraUpdateFactory().newLatLngZoom(BuildConfig.MAP_BINDING.newLatLng(-33.8256, 151.2395), 12));
     }
 }

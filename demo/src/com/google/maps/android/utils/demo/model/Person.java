@@ -1,7 +1,8 @@
 package com.google.maps.android.utils.demo.model;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.maps.android.clustering.ClusterItem;
+import de.quist.app.maps.utils.clustering.ClusterItem;
+
+import de.quist.app.maps.model.LatLng;
 
 public class Person implements ClusterItem {
     public final String name;
