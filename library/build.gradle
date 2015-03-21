@@ -13,8 +13,8 @@ apply plugin: 'maven'
 apply plugin: 'signing'
 
 archivesBaseName = 'android-maps-utils'
-group = 'de.quist.app.maps'
-version = '0.3.4'
+group = 'de.quist.apps.maps'
+version = '0.3.4-SNAPSHOT'
 
 dependencies {
     compile 'com.android.support:support-v4:21.+'
@@ -137,6 +137,6 @@ def modifyPom(pom) {
         def dependencyNode = dependenciesNode.appendNode('dependency')
         dependencyNode.appendNode('groupId', project.group)
         dependencyNode.appendNode('artifactId', 'android-maps-abstraction')
-        dependencyNode.appendNode('version', project.version)
+        dependencyNode.appendNode('version', '1.0.0')
     }
 }
