@@ -14,4 +14,3 @@ allprojects {
         mavenLocal()
     }
 }
-apply plugin: 'release'
