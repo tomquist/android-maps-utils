@@ -132,4 +132,11 @@ def modifyPom(pom) {
             }
         }
     }
+    pom.withXml {
+        def dependenciesNode = asNode().appendNode('dependencies')
+        def dependencyNode = dependenciesNode.appendNode('dependency')
+        dependencyNode.appendNode('groupId', project.group)
+        dependencyNode.appendNode('artifactId', 'android-maps-abstraction')
+        dependencyNode.appendNode('version', project.version)
+    }
 }
